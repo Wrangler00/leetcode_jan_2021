@@ -1,0 +1,70 @@
+Given a string s, return the longest palindromic substring in s.
+
+ 
+
+Example 1:
+
+Input: s = "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+Example 2:
+
+Input: s = "cbbd"
+Output: "bb"
+Example 3:
+
+Input: s = "a"
+Output: "a"
+Example 4:
+
+Input: s = "ac"
+Output: "a"
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s consist of only digits and English letters (lower-case and/or upper-case),
+
+//cpp NOT my solution
+
+//learned fron geeks for geeks
+
+
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int maxx=0,start=0;
+        int len = s.length();
+        
+        vector<vector<int>> dp(len,vector<int>(len,0));
+        
+        for(int i=0;i<len;i++){
+            dp[i][i]=1;
+            maxx=1;
+            start=i;
+        }
+        
+        for(int i=0;i<len-1;i++){
+            if(s[i]==s[i+1]){
+                dp[i][i+1]=1;
+                maxx = 2;
+                start=i;
+            }
+        }
+        
+        for(int k=3;k<=len;k++){
+            for(int i=0;i<len-k+1;i++){
+                int j=i+k-1;
+                
+                if(dp[i+1][j-1] && s[i] == s[j]){
+                    dp[i][j]=1;
+                    maxx = max(maxx,k);
+                    start=i;
+                }
+            }
+        }
+        
+        return s.substr(start,maxx);
+    }
+};
